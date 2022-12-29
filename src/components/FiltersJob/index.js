@@ -10,11 +10,7 @@ const FiltersJob = props => {
       const {changeSalaryby} = props
       const onClickSalaryItem = () => changeSalaryby(each.salaryRangeId)
       return (
-        <li
-          className="category-item"
-          key={each.salaryRangeId}
-          onClick={onClickSalaryItem}
-        >
+        <li key={each.salaryRangeId} onClick={onClickSalaryItem}>
           <input
             type="radio"
             id={each.salaryRangeId}
@@ -49,7 +45,7 @@ const FiltersJob = props => {
       }
 
       return (
-        <li className="category-item" key={each.employmentTypeId}>
+        <li key={each.employmentTypeId}>
           <input
             type="checkbox"
             id={each.employmentTypeId}
@@ -66,17 +62,22 @@ const FiltersJob = props => {
 
   const renderSalaryRange = () => (
     <>
-      <h1 className="category-heading">Salary Range</h1>
-      <ul className="categories-list">{renderSalaryList()}</ul>
+      <h1>Salary Range</h1>
+      <ul>{renderSalaryList()}</ul>
     </>
   )
 
   const renderJobType = () => (
     <>
-      <h1 className="category-heading">Types of Employment</h1>
-      <ul className="categories-list">{renderTypeList()}</ul>
+      <h1>Type of Employment</h1>
+      <ul>{renderTypeList()}</ul>
     </>
   )
+
+  const searchClicked = () => {
+    const {enterSearchInput} = props
+    enterSearchInput()
+  }
 
   const onEnterSearchInput = event => {
     const {enterSearchInput} = props
@@ -93,22 +94,23 @@ const FiltersJob = props => {
   const renderSearchInput = () => {
     const {searchInput} = props
     return (
-      <div className="search-input-container">
+      <div>
         <input
           value={searchInput}
           type="search"
-          className="search-input"
           placeholder="Search"
           onChange={onChangeSearchInput}
           onKeyDown={onEnterSearchInput}
         />
-        <BsSearch className="search-icon" />
+        <button testid="searchButton" onClick={searchClicked} type="button">
+          <BsSearch />
+        </button>
       </div>
     )
   }
 
   return (
-    <div className="filters-group-container">
+    <div>
       {renderSearchInput()}
       {renderJobType()}
       {renderSalaryRange()}

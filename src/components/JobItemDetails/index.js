@@ -1,5 +1,4 @@
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 
@@ -29,7 +28,7 @@ class JobItemDetails extends Component {
   getFormattedData = data => ({
     companyLogoUrl: data.company_logo_url,
     companyWebsiteUrl: data.company_website_url,
-    employmentType: data.amployment_type,
+    employmentType: data.employment_type,
     id: data.id,
     jobDescription: data.job_description,
     skills: data.skills,
@@ -43,7 +42,7 @@ class JobItemDetails extends Component {
   getFormattedData1 = data => ({
     companyLogoUrl: data.company_logo_url,
     companyWebsiteUrl: data.company_website_url,
-    employmentType: data.amployment_type,
+    employmentType: data.employment_type,
     id: data.id,
     jobDescription: data.job_description,
     skills: data.skills,
@@ -70,8 +69,8 @@ class JobItemDetails extends Component {
       },
       method: 'GET',
     }
-    const response = await fetch(apiUrl, options)
-    if (response.ok) {
+    try {
+      const response = await fetch(apiUrl, options)
       const fetchedData = await response.json()
       console.log(fetchedData)
       const data = {
@@ -89,8 +88,7 @@ class JobItemDetails extends Component {
         similarjobsData: updatedsimilarjobsData,
         apiStatus: apiStatusConstants.success,
       })
-    }
-    if (response.status === 404) {
+    } catch (error) {
       this.setState({
         apiStatus: apiStatusConstants.failure,
       })
@@ -98,7 +96,7 @@ class JobItemDetails extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="products-details-loader-container">
+    <div testid="loader" className="jobs-details-loader-container">
       <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
     </div>
   )
@@ -107,26 +105,26 @@ class JobItemDetails extends Component {
     const data = {imageUrl: details.image_url, name: details.name}
     const {imageUrl, name} = data
     return (
-      <li>
+      <li key={name}>
         <img src={imageUrl} alt={name} />
         <p>{name}</p>
       </li>
     )
   }
 
+  retryClicked = () => this.getjobData()
+
   renderFailureView = () => (
-    <div className="product-details-failure-view-container">
+    <div>
       <img
         alt="failure view"
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
-        className="failure-view-image"
       />
-      <h1 className="product-not-found-heading">Product Not Found</h1>
-      <Link to="/products">
-        <button type="button" className="button">
-          Continue Shopping
-        </button>
-      </Link>
+      <h1>Oops! Something Went Wrong</h1>
+      <p>We cannot seem to find the page you are looking for</p>
+      <button type="button" onClick={this.retryClicked}>
+        Retry
+      </button>
     </div>
   )
 
@@ -146,10 +144,10 @@ class JobItemDetails extends Component {
     } = jobData
 
     return (
-      <div className="product-details-success-view">
+      <div>
         <div>
           <div>
-            <img src={companyLogoUrl} alt="company" />
+            <img src={companyLogoUrl} alt="job details company logo" />
             <div>
               <h1>{title}</h1>
               <p>{rating}</p>
@@ -177,11 +175,11 @@ class JobItemDetails extends Component {
           <h1>Life at Company</h1>
           <div>
             <p>{lifeAtCompany.description}</p>
-            <img src={lifeAtCompany.image_url} alt="company" />
+            <img src={lifeAtCompany.image_url} alt="life at company" />
           </div>
         </div>
-        <h1 className="similar-products-heading">Similar Products</h1>
-        <ul className="similar-products-list">
+        <h1>Similar Jobs</h1>
+        <ul>
           {similarjobsData.map(eachSimilarJob => (
             <SimilarJobItem
               jobDetails={eachSimilarJob}
@@ -212,9 +210,7 @@ class JobItemDetails extends Component {
     return (
       <>
         <Header />
-        <div className="product-item-details-container">
-          {this.renderjobDetails()}
-        </div>
+        <div>{this.renderjobDetails()}</div>
       </>
     )
   }

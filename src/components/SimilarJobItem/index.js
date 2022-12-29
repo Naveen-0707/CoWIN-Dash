@@ -13,16 +13,16 @@ const SimilarJobItem = props => {
   } = jobDetails
 
   return (
-    <li className="similar-product-item">
+    <li>
       <div>
         <div>
-          <img src={companyLogoUrl} alt="company" />
+          <img src={companyLogoUrl} alt="similar job company logo" />
           <div>
             <h1>{title}</h1>
             <p>{rating}</p>
           </div>
         </div>
-        <p>Description</p>
+        <h1>Description</h1>
         <p>{jobDescription}</p>
         <div>
           <div>

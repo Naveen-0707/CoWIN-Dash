@@ -71,7 +71,9 @@ class AllJobSection extends Component {
     })
     const jwtToken = Cookies.get('jwt_token')
     const {activeSalaryId, activeTypeIds, searchInput} = this.state
+
     const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${activeTypeIds}&minimum_package=${activeSalaryId}&search=${searchInput}`
+    console.log(apiUrl)
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -168,7 +170,7 @@ class AllJobSection extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="products-loader-container">
+    <div testid="loader" className="products-loader-container">
       <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
     </div>
   )

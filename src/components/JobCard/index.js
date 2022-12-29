@@ -18,10 +18,10 @@ const JobCard = props => {
 
   return (
     <li className="product-item">
-      <Link to={`/products/${id}`} className="link-item">
+      <Link to={`/jobs/${id}`} className="link-item">
         <div>
           <div>
-            <img src={companyLogoUrl} alt="x" />
+            <img src={companyLogoUrl} alt="company logo" />
             <div>
               <h1>{title}</h1>
               <p>{rating}</p>
@@ -36,6 +36,7 @@ const JobCard = props => {
           </div>
           <hr />
           <div>
+            <h1>Description</h1>
             <p>{jobDescription}</p>
           </div>
         </div>
